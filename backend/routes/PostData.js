@@ -2,15 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const router = express.Router();
-const { Pool } = require('pg');
 
-// Setup PostgreSQL connection using the Pool from pg
-const pool = new Pool({
-    connectionString: "postgresql://snbpostdata_user:m64gJ3y7LlYgIXUPV5syQA6OKAR7gXVi@dpg-crf8pstsvqrc73f5c770-a.oregon-postgres.render.com/snbpostdata",
-    ssl: {
-      rejectUnauthorized: false,  // Necessary for Render-managed Postgres
-    },
-});
 
 // GET request to fetch device data
 router.get('/devices', async (req, res) => {
