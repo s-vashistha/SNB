@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import logo from '../assets/logo.png';
 import './Field.css'; // Assuming you put your styles in Field.css
 
-require('dotenv').config();
 const Field = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [deviceData, setDeviceData] = useState([]);
@@ -84,29 +83,30 @@ const Field = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredDevices.map((device, index) => (
+          {filteredDevices.map((data, index) => (
             <tr key={index}> 
-              <td>{device.imei_number}</td>
-              <td>{device.system_date_time}</td>
-              <td>{device.sim_number}</td>
-              <td>{device.simcom_manufacturing_date}</td>
-              <td>{device.esp_name}</td>
-              <td>{device.esp_serial_number}</td>
-              <td>{device.esp_manufacturing_date}</td>
-              <td>{device.network_timestamp}</td>
-              <td>{device.body_temperature}</td>
-              <td>{device.heart_rate}</td>
-              <td>{device.spo2}</td>
-              <td>{device.accx}</td>
-              <td>{device.accy}</td>
-              <td>{device.accz}</td>
-              <td>{device.gyrox}</td>
-              <td>{device.gyroy}</td>
-              <td>{device.gyroz}</td>
-              <td>{device.pressure}</td>
-              <td>{device.heading}</td>
-              <td>{device.location}</td>
-              <td>{device.battery}</td>
+              <td>{data.SerialNo}</td>
+              <td>{data.imei_number}</td>
+              <td>{data.system_date_time}</td>
+              <td>{data.sim_number}</td>
+              <td>{data.simcom_manufacturing_date}</td>
+              <td>{data.esp_name}</td>
+              <td>{data.esp_serial_number}</td>
+              <td>{data.esp_manufacturing_date}</td>
+              <td>{data.network_timestamp}</td>
+              <td>{data.body_temperature}</td>
+              <td>{data.heart_rate}</td>
+              <td>{data.spo2}</td>
+              <td>{data.accx}</td>
+              <td>{data.accy}</td>
+              <td>{data.accz}</td>
+              <td>{data.gyrox}</td>
+              <td>{data.gyroy}</td>
+              <td>{data.gyroz}</td>
+              <td>{data.pressure}</td>
+              <td>{data.heading}</td>
+              <td>{data.location}</td>
+              <td>{data.battery}</td>
               {/* Add other data as needed */}
             </tr>
           ))}

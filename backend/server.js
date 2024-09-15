@@ -12,7 +12,7 @@ const app = express();
 
 // Middleware to parse URL-encoded data
 app.use(express.urlencoded({ extended: true }));  // This handles application/x-www-form-urlencoded
-app.use(cors({ origin: 'http://localhost:3000' }));  // Enable CORS for cross-origin requests
+app.use(cors({ origin: 'http://localhost:10005' }));  // Enable CORS for cross-origin requests
 
 // Middleware to handle JSON responses
 app.use(express.json());
