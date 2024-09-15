@@ -1,4 +1,4 @@
-require("dotenv").config();
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const postDataRoutes = require('./routes/PostData');
@@ -12,13 +12,16 @@ const app = express();
 
 // Middleware to parse URL-encoded data
 app.use(express.urlencoded({ extended: true }));  // This handles application/x-www-form-urlencoded
-app.use(cors());  // Enable CORS for cross-origin requests
+app.use(cors({ origin: 'http://localhost:3000' }));  // Enable CORS for cross-origin requests
+
+// Middleware to handle JSON responses
+app.use(express.json());
 
 // Routes
-app.use('/', postDataRoutes);  // Use the routes defined in PostData.js
+app.use('/data', postDataRoutes);  // Use the routes defined in PostData.js
 
 // Start the server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
