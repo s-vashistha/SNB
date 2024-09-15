@@ -3,22 +3,22 @@ services:
     name: frontend-service
     runtime: node
     plan: free
-    buildCommand: npm install && npm run build
-    startCommand: npm start
+    buildCommand: cd frontend && npm install && npm run build
+    startCommand: cd frontend && npm start
     repo: https://github.com/s-vashistha/SNB
     branch: main
     envVars:
       - key: NODE_ENV
         value: production
       - key: REACT_APP_API_URL
-        value: 'http://localhost:10000/api/data'
+        value: 'http://localhost:10000/api/data'  # Or update with the actual backend URL after deployment
 
   - type: web
     name: backend-service
     runtime: node
     plan: free
-    buildCommand: npm install
-    startCommand: node server.js
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && node server.js
     repo: https://github.com/s-vashistha/SNB
     branch: main
     envVars:
