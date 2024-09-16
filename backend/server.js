@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const postDataRoutes = require('./routes/PostData');
 
@@ -18,7 +19,17 @@ app.use(cors({ origin: 'http://localhost:10005' }));  // Enable CORS for cross-o
 app.use(express.json());
 
 // Routes
-app.use('/data', postDataRoutes);  // Use the routes defined in PostData.js
+app.use('/api/data', postDataRoutes);  // Use the routes defined in PostData.js
+// Other middleware and API routes
+// e.g., app.use('/api', apiRoutes);
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'frontend/build')));
+
+// Serve the React app for any unknown routes (SPA behavior)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
+});
 
 // Start the server
 const PORT = process.env.PORT || 10000;

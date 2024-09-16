@@ -5,7 +5,7 @@ const router = express.Router();
 const pool = require('../db');
 
 // POST route for device data
-router.post('/data', async (req, res) => {
+router.post('/api/data', async (req, res) => {
   const {
     IMEI_Number, System_Date_Time, Sim_Number, SIMCOM_Manufacturing_DATE,
     ESP_Name, ESP_Serial_Number, ESP_ManufacturingDate, Network_Timestamp,
@@ -66,7 +66,7 @@ router.post('/data', async (req, res) => {
 });
 
 // GET request to fetch device data
-router.get('/data', async (req, res) => {
+router.get('/api/data', async (req, res) => {
   try {
     const results = await pool.query('SELECT * FROM espdata');
     const modifiedResults = results.rows.map(row => ({
