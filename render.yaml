@@ -11,7 +11,8 @@ services:
       - key: NODE_ENV
         value: production
       - key: REACT_APP_API_URL
-        value: 'http://localhost:10000/api/data'  # Or update with the actual backend URL after deployment
+        value: 'http://localhost:10000/api/data' # Or update with the actual backend URL after deployment
+    autoDeploy: true  
 
   - type: web
     name: backend-service
@@ -30,3 +31,4 @@ services:
         value: m64gJ3y7LlYgIXUPV5syQA6OKAR7gXVi
       - key: NODE_ENV
         value: production
+    autoDeploy: true  
