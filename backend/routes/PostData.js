@@ -14,7 +14,7 @@ router.post('/api/data', async (req, res) => {
   } = req.body;  // Data is automatically parsed from application/x-www-form-urlencoded
 
   // Assuming the 'status' is determined by the 'Device_Status' field in the form
-  const status = Device_Status === 'On' ? 'On' : 'Off';
+  //const status = Device_Status === 'On' ? 'On' : 'Off';
 
   try {
     // Check if there's an existing record for this ESP_Serial_Number
@@ -23,13 +23,14 @@ router.post('/api/data', async (req, res) => {
       [ESP_Serial_Number]
     );
 
-    const query = '';
+    let query = '';
     let params = [];
 
     if (existingRecord.rows.length > 0) {
       const lastRecord = existingRecord.rows[0];
 
-      
+      //removed status condition 
+      //query to insert
         query = `INSERT INTO espdata (srno, imei_number, system_date_time, sim_number, simcom_manufacturing_date, esp_name, 
         esp_serial_number, esp_manufacturingdate, network_timestamp, body_temperature, heart_rate, spo2, accx, accy, accz,
          gyrox, gyroy, gyroz, heading, location, battery)
