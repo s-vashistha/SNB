@@ -20,13 +20,21 @@ app.use(express.json());
 app.use('/api/data', postDataRoutes);
 
 // Serve static files from the React app
-const buildPath = path.join(__dirname, 'frontend/build');
-app.use(express.static(buildPath));
+const buildPath = path.join(__dirname, '..', 'frontend', 'build');
 
-// Serve the React app for any unknown routes (SPA behavior)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(buildPath, 'index.html'));
-});
+// Check if the build directory exists before using it
+const fs = require('fs');
+if (fs.existsSync(buildPath)) {
+  console.log("Serving static files from build path:", buildPath);
+  app.use(express.static(buildPath));
+
+  // Serve the React app for any unknown routes (SPA behavior)
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(buildPath, 'index.html'));
+  });
+} else {
+  console.error("Error: Frontend build directory not found at:", buildPath);
+}
 
 // Start the server
 const PORT = process.env.PORT || 10000;

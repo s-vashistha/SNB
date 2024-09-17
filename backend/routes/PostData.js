@@ -10,7 +10,7 @@ router.post('/api/data', async (req, res) => {
     IMEI_Number, System_Date_Time, Sim_Number, SIMCOM_Manufacturing_DATE,
     ESP_Name, ESP_Serial_Number, ESP_ManufacturingDate, Network_Timestamp,
     Body_Temperature, Heart_Rate, SpO2, accX, accY, accZ, gyroX, gyroY, gyroZ,
-    Heading, Location, Battery
+    Heading,Body_Activity, Location, Battery
   } = req.body;  // Data is automatically parsed from application/x-www-form-urlencoded
 
   // Assuming the 'status' is determined by the 'Device_Status' field in the form
@@ -23,29 +23,25 @@ router.post('/api/data', async (req, res) => {
       [ESP_Serial_Number]
     );
 
-    let query = '';
+    const query = '';
     let params = [];
 
     if (existingRecord.rows.length > 0) {
       const lastRecord = existingRecord.rows[0];
 
-      // If the status is 'On', insert a new record; otherwise, update the status
-      if (status === 'On') {
-        query = `INSERT INTO espdata (srno, imei_number, system_date_time, sim_number, simcom_manufacturing_date, esp_name, esp_serial_number, esp_manufacturingdate, network_timestamp, body_temperature, heart_rate, spo2, accx, accy, accz, gyrox, gyroy, gyroz, heading, location, battery)
+      
+        query = `INSERT INTO espdata (srno, imei_number, system_date_time, sim_number, simcom_manufacturing_date, esp_name, 
+        esp_serial_number, esp_manufacturingdate, network_timestamp, body_temperature, heart_rate, spo2, accx, accy, accz,
+         gyrox, gyroy, gyroz, heading, location, battery)
                  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)`;
         params = [
           IMEI_Number, System_Date_Time, Sim_Number, SIMCOM_Manufacturing_DATE,
           ESP_Name, ESP_Serial_Number, ESP_ManufacturingDate, Network_Timestamp,
           Body_Temperature, Heart_Rate, SpO2, accX, accY, accZ, gyroX, gyroY, gyroZ,
-          Heading, Location, Battery, status
-        ];
-      } else {
-        // Update the last record if the status is 'Off'
-        query = `UPDATE espdata SET system_date_time = $1 WHERE esp_serial_number = $3 AND srno = $4`;
-        params = [System_Date_Time, status, ESP_Serial_Number, lastRecord.srno];
-      }
-
-    } else {
+          Heading,Body_Activity, Location, Battery, status
+        ]
+    } 
+    else {
       // If no existing record, insert a new one
       query = `INSERT INTO espdata (srno, imei_number, system_date_time, sim_number, simcom_manufacturing_date, esp_name, esp_serial_number, esp_manufacturingdate, network_timestamp, body_temperature, heart_rate, spo2, accx, accy, accz, gyrox, gyroy, gyroz, heading, location, battery)
                  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)`;
@@ -53,7 +49,7 @@ router.post('/api/data', async (req, res) => {
         IMEI_Number, System_Date_Time, Sim_Number, SIMCOM_Manufacturing_DATE,
         ESP_Name, ESP_Serial_Number, ESP_ManufacturingDate, Network_Timestamp,
         Body_Temperature, Heart_Rate, SpO2, accX, accY, accZ, gyroX, gyroY, gyroZ,
-        Heading, Location, Battery, status
+        Heading,Body_Activity, Location, Battery, status
       ];
     }
 
@@ -88,6 +84,9 @@ router.get('/api/data', async (req, res) => {
       gyroY: row.gyroy,
       gyroZ: row.gyroz,
       Heading: row.heading,
+      Body_Activity: row.body_activity,
+      Jaw_Movement: row.jaw_movement,
+      At_Ideal_Temperature: row.at_ideal_temperature,
       Location: row.location,
       Battery: row.battery,
       // Add other fields as necessary

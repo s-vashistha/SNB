@@ -22,12 +22,14 @@ const Field = () => {
       .catch((error) => console.error('Error fetching PostgreSQL data:', error));
   }, []);
 
+  console.log(deviceData)
+
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
 
   const filteredDevices = deviceData.filter((device) =>
-    device.IMEI_Number.includes(searchTerm)
+    device.imei_number.includes(searchTerm)
   );
 
   return (
@@ -68,8 +70,10 @@ const Field = () => {
             <th>gyroX</th>
             <th>gyroY</th>
             <th>gyroZ</th>
-            <th>Pressure</th>
             <th>Heading</th>
+            <th>Body Activity</th>
+            <th>Jaw Movement</th>
+            <th>At Ideal Temperature</th>
             <th>Location</th>
             <th>Battery</th>
             <th>Status</th>
@@ -96,8 +100,10 @@ const Field = () => {
               <td>{device.gyrox}</td>
               <td>{device.gyroy}</td>
               <td>{device.gyroz}</td>
-              <td>{device.pressure}</td>
               <td>{device.heading}</td>
+              <td>{device.body_activity}</td>
+              <td>{device.jaw_movement}</td>
+              <td>{device.at_ideal_temperature}</td>
               <td>{device.location}</td>
               <td>{device.battery}</td>
               <td>{device.status}</td>
@@ -112,7 +118,8 @@ const Field = () => {
           <li key={item.srno}>
             {item.imei_number}, {item.system_date_time}, {item.simcom_manufacturing_date},
              {item.esp_name}, {item.esp_serial_number}, {item.esp_manufacturingdate}, {item.network_timestamp},
-              {item.body_temperature}, {item.heart_rate}, {item.spo2}, {item.accx}, {item.accy}, {item.accz}, {item.gyrox}, {item.gyroy}, {item.gyroz}, {item.pressure}, {item.heading}, {item.location}, {item.battery}
+              {item.body_temperature}, {item.heart_rate}, {item.spo2}, {item.accx}, {item.accy}, {item.accz}, {item.gyrox}, {item.gyroy}, {item.gyroz}, {item.heading}, 
+              {item.body_activity},{item.jaw_movement},{item.at_ideal_temperature},{item.location},{item.location}, {item.battery}, {item.status}
           </li>
         ))}
       </ul>
