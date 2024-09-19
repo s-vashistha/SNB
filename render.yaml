@@ -11,7 +11,7 @@ services:
       - key: NODE_ENV
         value: production
       - key: REACT_APP_API_URL
-        value: 'http://localhost:10000/api/data' # Or update with the actual backend URL after deployment
+        value: https://snb-1.onrender.com
     autoDeploy: true  
 
   - type: web
