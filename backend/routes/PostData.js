@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const EspData = require('./models/EspData'); // Import the Sequelize models
+
+const EspData = require('../models/EspData');
+// Import the Sequelize models
 
 // POST route for device data
 router.post('/data', async (req, res) => {
