@@ -12,7 +12,7 @@ const Field = () => {
   useEffect(() => {
     // Fetch data from the backend using axios
     axios
-      .get(`${process.env.REACT_APP_API_URL}api/data`)  // Assuming the API is available at this endpoint
+      .get(`${process.env.REACT_APP_API_URL}/api/data`)  // Assuming the API is available at this endpoint
       .then((response) => {
         // Set the data returned by the backend to the deviceData state
         setDeviceData(response.data);

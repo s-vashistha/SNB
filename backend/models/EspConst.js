@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db'); // Import the Sequelize instance from db.js
 
-const EspData = sequelize.define('EspData', {
-// Define the attributes of the EspData model
+const EspConst = sequelize.define('EspConst', {
+// Define the attributes of the EspConst model
 
   srno: {
     type: DataTypes.INTEGER,
@@ -107,4 +107,4 @@ const EspData = sequelize.define('EspData', {
   timestamps: false // Disable automatic timestamp fields
 });
 
-module.exports = EspData;
+module.exports = EspConst;

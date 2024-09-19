@@ -1,46 +1,94 @@
-require('dotenv').config();
 const express = require('express');
-const path = require('path');
-const cors = require('cors');
-const postDataRoutes = require('./routes/PostData');
-const sequelize = require('./db');  // Import sequelize instance
+const router = express.Router();
 
-// Initialize the app
-const app = express();
+const EspConst = require('../models/EspConst');
+// Import the Sequelize models
 
-// Middleware to parse URL-encoded data and JSON data
-app.use(express.urlencoded({ extended: true }));  // Handles application/x-www-form-urlencoded
-app.use(express.json());  // Handles application/json
-app.use(cors());  // Adjust for production URLs when deployed
+// POST route for device data
+router.post('/data', async (req, res) => {
+  const {
+    IMEI_Number, System_Date_Time, Sim_Number, SIMCOM_Manufacturing_DATE,
+    ESP_Name, ESP_Serial_Number, ESP_ManufacturingDate, Network_Timestamp,
+    Body_Temperature, Heart_Rate, SpO2, accX, accY, accZ, gyroX, gyroY, gyroZ,
+    Heading, Body_Activity, Jaw_Movement, At_Ideal_Temperature, Location, Battery
+  } = req.body;  // Data is automatically parsed from application/x-www-form-urlencoded
 
-// Routes
-app.use('/api', postDataRoutes);
+  try {
+    // Insert data using Sequelize
+    const newRecord = await EspConst.create({
+      imei_number: IMEI_Number,
+      system_date_time: System_Date_Time,
+      sim_number: Sim_Number,
+      simcom_manufacturing_date: SIMCOM_Manufacturing_DATE,
+      esp_name: ESP_Name,
+      esp_serial_number: ESP_Serial_Number,
+      esp_manufacturingdate: ESP_ManufacturingDate,
+      network_timestamp: Network_Timestamp,
+      body_temperature: Body_Temperature,
+      heart_rate: Heart_Rate,
+      spo2: SpO2,
+      accx: accX,
+      accy: accY,
+      accz: accZ,
+      gyrox: gyroX,
+      gyroy: gyroY,
+      gyroz: gyroZ,
+      heading: Heading,
+      body_activity: Body_Activity,
+      jaw_movement: Jaw_Movement,
+      at_ideal_temperature: At_Ideal_Temperature,
+      location: Location,
+      battery: Battery,
+    });
 
-// Serve static files from the React app
-const buildPath = path.join(__dirname, '..', 'frontend', 'build');
-
-// Check if the build directory exists before using it
-const fs = require('fs');
-if (fs.existsSync(buildPath)) {
-  console.log("Serving static files from build path:", buildPath);
-  app.use(express.static(buildPath));
-
-  // Serve the React app for any unknown routes (SPA behavior)
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(buildPath, 'index.html'));
-  });
-} else {
-  console.error("Error: Frontend build directory not found at:", buildPath);
-}
-
-// Start the server after syncing Sequelize models
-const PORT = process.env.PORT || 10000;
-
-// Sync Sequelize models with the database
-sequelize.sync().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
-}).catch(error => {
-  console.error("Unable to sync Sequelize models:", error);
+    res.json({ message: 'Record processed successfully', data: newRecord });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
+
+// GET request to fetch device data
+router.get('/data', async (req, res) => {
+  try {
+    // Fetch data using Sequelize
+    const results = await EspConst.findAll();
+
+    const modifiedResults = results.map(row => ({
+      IMEI_Number: row.imei_number,
+      System_Date_Time: row.system_date_time,
+      Sim_Number: row.sim_number,
+      SIMCOM_Manufacturing_DATE: row.simcom_manufacturing_date,
+      ESP_Name: row.esp_name,
+      ESP_Serial_Number: row.esp_serial_number,
+      ESP_ManufacturingDate: row.esp_manufacturingdate,
+      Network_Timestamp: row.network_timestamp,
+      Body_Temperature: row.body_temperature,
+      Heart_Rate: row.heart_rate,
+      SpO2: row.spo2,
+      accX: row.accx,
+      accY: row.accy,
+      accZ: row.accz,
+      gyroX: row.gyrox,
+      gyroY: row.gyroy,
+      gyroZ: row.gyroz,
+      Heading: row.heading,
+      Body_Activity: row.body_activity,
+      Jaw_Movement: row.jaw_movement,
+      At_Ideal_Temperature: row.at_ideal_temperature,
+      Location: row.location,
+      Battery: row.battery,
+    }));
+
+    res.json(modifiedResults);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+module.exports = router;
+
+
+
+
+
+
