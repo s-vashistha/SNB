@@ -3,21 +3,18 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const postDataRoutes = require('./routes/PostData');
-const bodyParser = require('body-parser');
-const pool = require('./db');
+const sequelize = require('./db');  // Import sequelize instance
 
 // Initialize the app
 const app = express();
 
-// Middleware to parse URL-encoded data
-app.use(express.urlencoded({ extended: true }));
+// Middleware to parse URL-encoded data and JSON data
+app.use(express.urlencoded({ extended: true }));  // Handles application/x-www-form-urlencoded
+app.use(express.json());  // Handles application/json
 app.use(cors());  // Adjust for production URLs when deployed
 
-// Middleware to handle JSON responses
-app.use(express.json());
-
 // Routes
-app.use('/api/data', postDataRoutes);
+app.use('/api', postDataRoutes);
 
 // Serve static files from the React app
 const buildPath = path.join(__dirname, '..', 'frontend', 'build');
@@ -36,8 +33,14 @@ if (fs.existsSync(buildPath)) {
   console.error("Error: Frontend build directory not found at:", buildPath);
 }
 
-// Start the server
+// Start the server after syncing Sequelize models
 const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+
+// Sync Sequelize models with the database
+sequelize.sync().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}).catch(error => {
+  console.error("Unable to sync Sequelize models:", error);
 });

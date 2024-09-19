@@ -1,72 +1,57 @@
-require('dotenv').config();
-
 const express = require('express');
 const router = express.Router();
-const pool = require('../db');
+const EspData = require('../model/Espdata'); // Import the Sequelize model
 
 // POST route for device data
-router.post('/api/data', async (req, res) => {
+router.post('/data', async (req, res) => {
   const {
     IMEI_Number, System_Date_Time, Sim_Number, SIMCOM_Manufacturing_DATE,
     ESP_Name, ESP_Serial_Number, ESP_ManufacturingDate, Network_Timestamp,
     Body_Temperature, Heart_Rate, SpO2, accX, accY, accZ, gyroX, gyroY, gyroZ,
-    Heading,Body_Activity, Location, Battery
+    Heading, Body_Activity, Jaw_Movement, At_Ideal_Temperature, Location, Battery
   } = req.body;  // Data is automatically parsed from application/x-www-form-urlencoded
 
-  // Assuming the 'status' is determined by the 'Device_Status' field in the form
-  //const status = Device_Status === 'On' ? 'On' : 'Off';
-
   try {
-    // Check if there's an existing record for this ESP_Serial_Number
-    const existingRecord = await pool.query(
-      `SELECT * FROM espdata WHERE esp_serial_number = $1 ORDER BY srno DESC LIMIT 1`,
-      [ESP_Serial_Number]
-    );
+    // Insert data using Sequelize
+    const newRecord = await EspData.create({
+      imei_number: IMEI_Number,
+      system_date_time: System_Date_Time,
+      sim_number: Sim_Number,
+      simcom_manufacturing_date: SIMCOM_Manufacturing_DATE,
+      esp_name: ESP_Name,
+      esp_serial_number: ESP_Serial_Number,
+      esp_manufacturingdate: ESP_ManufacturingDate,
+      network_timestamp: Network_Timestamp,
+      body_temperature: Body_Temperature,
+      heart_rate: Heart_Rate,
+      spo2: SpO2,
+      accx: accX,
+      accy: accY,
+      accz: accZ,
+      gyrox: gyroX,
+      gyroy: gyroY,
+      gyroz: gyroZ,
+      heading: Heading,
+      body_activity: Body_Activity,
+      jaw_movement: Jaw_Movement,
+      at_ideal_temperature: At_Ideal_Temperature,
+      location: Location,
+      battery: Battery,
+    });
 
-    let query = '';
-    let params = [];
-
-    if (existingRecord.rows.length > 0) {
-      const lastRecord = existingRecord.rows[0];
-
-      //removed status condition 
-      //query to insert
-        query = `INSERT INTO espdata (srno, imei_number, system_date_time, sim_number, simcom_manufacturing_date, esp_name, 
-        esp_serial_number, esp_manufacturingdate, network_timestamp, body_temperature, heart_rate, spo2, accx, accy, accz,
-         gyrox, gyroy, gyroz, heading, location, battery)
-                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)`;
-        params = [
-          IMEI_Number, System_Date_Time, Sim_Number, SIMCOM_Manufacturing_DATE,
-          ESP_Name, ESP_Serial_Number, ESP_ManufacturingDate, Network_Timestamp,
-          Body_Temperature, Heart_Rate, SpO2, accX, accY, accZ, gyroX, gyroY, gyroZ,
-          Heading,Body_Activity, Location, Battery, status
-        ]
-    } 
-    else {
-      // If no existing record, insert a new one
-      query = `INSERT INTO espdata (srno, imei_number, system_date_time, sim_number, simcom_manufacturing_date, esp_name, esp_serial_number, esp_manufacturingdate, network_timestamp, body_temperature, heart_rate, spo2, accx, accy, accz, gyrox, gyroy, gyroz, heading, location, battery)
-                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)`;
-      params = [
-        IMEI_Number, System_Date_Time, Sim_Number, SIMCOM_Manufacturing_DATE,
-        ESP_Name, ESP_Serial_Number, ESP_ManufacturingDate, Network_Timestamp,
-        Body_Temperature, Heart_Rate, SpO2, accX, accY, accZ, gyroX, gyroY, gyroZ,
-        Heading,Body_Activity, Location, Battery, status
-      ];
-    }
-
-    // Execute the query
-    await pool.query(query, params);
-    res.json({ message: 'Record processed successfully' });
+    res.json({ message: 'Record processed successfully', data: newRecord });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
 // GET request to fetch device data
-router.get('/api/data', async (req, res) => {
+router.get('/data', async (req, res) => {
   try {
-    const results = await pool.query('SELECT * FROM espdata');
-    const modifiedResults = results.rows.map(row => ({
+    // Fetch data using Sequelize
+    const results = await EspData.findAll();
+
+    const modifiedResults = results.map(row => ({
       IMEI_Number: row.imei_number,
       System_Date_Time: row.system_date_time,
       Sim_Number: row.sim_number,
@@ -90,15 +75,18 @@ router.get('/api/data', async (req, res) => {
       At_Ideal_Temperature: row.at_ideal_temperature,
       Location: row.location,
       Battery: row.battery,
-      // Add other fields as necessary
     }));
-    
+
     res.json(modifiedResults);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 });
 
-
-
 module.exports = router;
+
+
+
+
+
+
