@@ -1,20 +1,23 @@
-const express = require('express');
+const express = require('express'); 
 const router = express.Router();
+const bodyParser = require('body-parser'); // Import body-parser for parsing URL-encoded data
 
-const EspConst = require('../models/EspConst');
-// Import the Sequelize models
+// Use bodyParser to handle x-www-form-urlencoded data
+router.use(bodyParser.urlencoded({ extended: true }));
 
-// POST route for device data
+const EspConst = require('../models/EspConst'); // Import your Sequelize model
+
+// POST route for device data (accepts x-www-form-urlencoded data)
 router.post('/data', async (req, res) => {
   const {
     IMEI_Number, System_Date_Time, Sim_Number, SIMCOM_Manufacturing_DATE,
     ESP_Name, ESP_Serial_Number, ESP_ManufacturingDate, Network_Timestamp,
     Body_Temperature, Heart_Rate, SpO2, accX, accY, accZ, gyroX, gyroY, gyroZ,
     Heading, Body_Activity, Jaw_Movement, At_Ideal_Temperature, Location, Battery
-  } = req.body;  // Data is automatically parsed from application/x-www-form-urlencoded
+  } = req.body;  // Data is parsed from application/x-www-form-urlencoded
 
   try {
-    // Insert data using Sequelize
+    // Insert data into the database using Sequelize
     const newRecord = await EspConst.create({
       imei_number: IMEI_Number,
       system_date_time: System_Date_Time,
@@ -50,9 +53,10 @@ router.post('/data', async (req, res) => {
 // GET request to fetch device data
 router.get('/data', async (req, res) => {
   try {
-    // Fetch data using Sequelize
+    // Fetch data from the database
     const results = await EspConst.findAll();
 
+    // Modify the results to match the structure used in your frontend
     const modifiedResults = results.map(row => ({
       IMEI_Number: row.imei_number,
       System_Date_Time: row.system_date_time,
@@ -86,9 +90,3 @@ router.get('/data', async (req, res) => {
 });
 
 module.exports = router;
-
-
-
-
-
-

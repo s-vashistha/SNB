@@ -1,10 +1,9 @@
-import axios from 'axios';
+import axios from 'axios'; 
 import React, { useEffect, useState } from 'react';
 import logo from '../assets/logo.png';
 import './Field.css';
 
 const Field = () => {
-  const [searchTerm, setSearchTerm] = useState('');  // Search term for filtering
   const [deviceData, setDeviceData] = useState([]);  // State to store the device data
   const [error, setError] = useState(null);          // State for error handling
 
@@ -24,31 +23,12 @@ const Field = () => {
       });
   }, []);
 
-  // Function to handle search input changes
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
-  // Filter the deviceData array based on the searchTerm (IMEI number)
-  const filteredDevices = deviceData.filter((device) =>
-    device.imei_number.includes(searchTerm)
-  );
-
   return (
     <div className="container">
       <header className="header">
         <img src={logo} alt="Logo" />
         <h1 align="center" background="#cdece8">Smart Neckband Devices Data</h1>
       </header>
-
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Search by IMEI number..."
-          value={searchTerm}
-          onChange={handleSearch}
-        />
-      </div>
 
       {/* Display an error message if the data fetch fails */}
       {error && <p className="error-message">{error}</p>}
@@ -81,14 +61,14 @@ const Field = () => {
             <th>At Ideal Temperature</th>
             <th>Location</th>
             <th>Battery</th>
-            <th>Status</th>
+            <th>Status</th> {/* Confirm this field exists or remove */}
           </tr>
         </thead>
         <tbody>
-          {/* Render the filtered device data */}
-          {filteredDevices.map((device, index) => (
-            <tr key={index}>
-              <td>{device.srno}</td>
+          {/* Render the device data */}
+          {deviceData.map((device, index) => (
+            <tr key={device.srno}>
+              <td>{index + 1}</td> {/* Serial number based on array index */}
               <td>{device.imei_number}</td>
               <td>{device.system_date_time}</td>
               <td>{device.sim_number}</td>
@@ -112,25 +92,11 @@ const Field = () => {
               <td>{device.at_ideal_temperature}</td>
               <td>{device.location}</td>
               <td>{device.battery}</td>
-              <td>{device.status}</td>
+              <td>{device.status}</td> {/* Ensure this exists or remove */}
             </tr>
           ))}
         </tbody>
       </table>
-
-      <h2>Data from Backend</h2>
-      {/* Render a list of device data for visualization */}
-      <ul>
-        {deviceData.map((item) => (
-          <li key={item.srno}>
-            {item.imei_number}, {item.system_date_time}, {item.simcom_manufacturing_date},
-            {item.esp_name}, {item.esp_serial_number}, {item.esp_manufacturingdate}, {item.network_timestamp},
-            {item.body_temperature}, {item.heart_rate}, {item.spo2}, {item.accx}, {item.accy}, {item.accz},
-            {item.gyrox}, {item.gyroy}, {item.gyroz}, {item.heading}, {item.body_activity}, {item.jaw_movement},
-            {item.at_ideal_temperature}, {item.location}, {item.battery}, {item.status}
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };
