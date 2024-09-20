@@ -38,3 +38,5 @@ services:
       - key: NODE_ENV
         value: production
     autoDeploy: true  
+
+    

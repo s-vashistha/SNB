@@ -11,7 +11,10 @@ const app = express();
 // Middleware to parse URL-encoded data and JSON data
 app.use(express.urlencoded({ extended: true }));  // Handles application/x-www-form-urlencoded
 app.use(express.json());  // Handles application/json
-app.use(cors());  // Adjust for production URLs when deployed
+app.use(cors({
+  origin:'*',
+  credentials: true,  // Allow credentials like cookies, headers, etc.
+}));  // Adjust for production URLs when deployed
 
 // Routes
 app.use('/api', postDataRoutes);

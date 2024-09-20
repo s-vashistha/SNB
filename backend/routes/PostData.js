@@ -1,4 +1,4 @@
-const express = require('express'); 
+const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser'); // Import body-parser for parsing URL-encoded data
 
