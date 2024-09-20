@@ -82,18 +82,6 @@ const EspConst = sequelize.define('EspConst', {
     type: DataTypes.STRING, 
     allowNull: false
   },
-  body_activity: {
-    type: DataTypes.STRING, 
-    allowNull: false
-  },
-  jaw_movement: {
-    type: DataTypes.STRING, 
-    allowNull: false
-  },
-  at_ideal_temperature: {
-    type: DataTypes.STRING, 
-    allowNull: false
-  },
   location: {
     type: DataTypes.STRING, 
     allowNull: true

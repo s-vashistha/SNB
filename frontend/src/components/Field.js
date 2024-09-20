@@ -56,11 +56,8 @@ const Field = () => {
             <th>gyroY</th>
             <th>gyroZ</th>
             <th>Heading</th>
-            <th>Body Activity</th>
-            <th>Jaw Movement</th>
-            <th>At Ideal Temperature</th>
             <th>Location</th>
-            <th>Battery</th>
+            <th>Battery</th>{/* removed Body Activity Jaw Movement At Ideal Temperature*/}
             <th>Status</th> {/* Confirm this field exists or remove */}
           </tr>
         </thead>
@@ -86,10 +83,7 @@ const Field = () => {
               <td>{device.gyrox}</td>
               <td>{device.gyroy}</td>
               <td>{device.gyroz}</td>
-              <td>{device.heading}</td>
-              <td>{device.body_activity}</td>
-              <td>{device.jaw_movement}</td>
-              <td>{device.at_ideal_temperature}</td>
+              <td>{device.heading}</td>{/* removed body_activity jaw_movement at_ideal_temperature*/}
               <td>{device.location}</td>
               <td>{device.battery}</td>
               <td>{device.status}</td> {/* Ensure this exists or remove */}

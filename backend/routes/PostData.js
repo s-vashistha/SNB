@@ -13,9 +13,9 @@ router.post('/data', async (req, res) => {
     IMEI_Number, System_Date_Time, Sim_Number, SIMCOM_Manufacturing_DATE,
     ESP_Name, ESP_Serial_Number, ESP_ManufacturingDate, Network_Timestamp,
     Body_Temperature, Heart_Rate, SpO2, accX, accY, accZ, gyroX, gyroY, gyroZ,
-    Heading, Body_Activity, Jaw_Movement, At_Ideal_Temperature, Location, Battery
+    Heading, Location, Battery
   } = req.body;  // Data is parsed from application/x-www-form-urlencoded
-
+                //removed Body_Activity, Jaw_Movement, At_Ideal_Temperature, 
   try {
     // Insert data into the database using Sequelize
     const newRecord = await EspConst.create({
@@ -37,11 +37,8 @@ router.post('/data', async (req, res) => {
       gyroy: gyroY,
       gyroz: gyroZ,
       heading: Heading,
-      body_activity: Body_Activity,
-      jaw_movement: Jaw_Movement,
-      at_ideal_temperature: At_Ideal_Temperature,
       location: Location,
-      battery: Battery,
+      battery: Battery,//removed Body_Activity, Jaw_Movement, At_Ideal_Temperature, 
     });
 
     res.json({ message: 'Record processed successfully', data: newRecord });
@@ -76,9 +73,6 @@ router.get('/data', async (req, res) => {
       gyroY: row.gyroy,
       gyroZ: row.gyroz,
       Heading: row.heading,
-      Body_Activity: row.body_activity,
-      Jaw_Movement: row.jaw_movement,
-      At_Ideal_Temperature: row.at_ideal_temperature,
       Location: row.location,
       Battery: row.battery,
     }));
