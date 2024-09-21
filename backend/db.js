@@ -9,7 +9,12 @@ if (!process.env.DATABASE_URL) {
 
 // Initialize Sequelize with PostgreSQL connection
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  
+  host: 'dpg-crf8pstsvqrc73f5c770-a',
   dialect: 'postgres',
+  dialectOptions: {
+    ssl: false
+  },
   logging: true,// Optional: disable logging of queries
   pool: {                   //check pool attributes
     max:10,
@@ -25,7 +30,7 @@ const KEEP_ALIVE_INTERVAL = 30000; // 30 seconds
 
 async function keepAlive() {
   try {
-    await sequelize.query('SELECT *'); // A simple query to keep the connection alive
+    await sequelize.query('SELECT * FROM espdata'); // A simple query to keep the connection alive
     console.log('Keep-alive query successful');
   } catch (error) {
     console.error('Keep-alive query failed:', error);
