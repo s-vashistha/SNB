@@ -30,7 +30,7 @@ const KEEP_ALIVE_INTERVAL = 30000; // 30 seconds
 
 async function keepAlive() {
   try {
-    await sequelize.query('SELECT * FROM espdata'); // A simple query to keep the connection alive
+    await sequelize.query('SELECT * FROM espdata;'); // A simple query to keep the connection alive
     console.log('Keep-alive query successful');
   } catch (error) {
     console.error('Keep-alive query failed:', error);
