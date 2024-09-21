@@ -10,11 +10,6 @@ if (!process.env.DATABASE_URL) {
 // Initialize Sequelize with PostgreSQL connection
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
-  dialectOptions: {
-    ssl: {
-      rejectUnauthorized: false // SSL settings for Render
-    }
-  },
   logging: true,// Optional: disable logging of queries
   pool: {                   //check pool attributes
     max:10,

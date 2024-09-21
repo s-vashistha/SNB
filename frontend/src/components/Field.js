@@ -1,4 +1,4 @@
-import axios from 'axios'; 
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import logo from '../assets/logo.png';
 import './Field.css';
@@ -11,7 +11,7 @@ const Field = () => {
   useEffect(() => {
     // Fetch data from the backend using axios
     axios
-      .get(`${process.env.REACT_APP_API_URL}/api/data`)  // Assuming the API is available at this endpoint
+      .get(`${process.env.REACT_APP_API_URL}/data`)  // Assuming the API is available at this endpoint
       .then((response) => {
         // Set the data returned by the backend to the deviceData state
         setDeviceData(response.data);
@@ -63,30 +63,30 @@ const Field = () => {
         </thead>
         <tbody>
           {/* Render the device data */}
-          {deviceData.map((device, index) => (
-            <tr key={device.srno}>
+          {deviceData.map((data, index) => (
+            <tr key={data.srno}>
               <td>{index + 1}</td> {/* Serial number based on array index */}
-              <td>{device.imei_number}</td>
-              <td>{device.system_date_time}</td>
-              <td>{device.sim_number}</td>
-              <td>{device.simcom_manufacturing_date}</td>
-              <td>{device.esp_name}</td>
-              <td>{device.esp_serial_number}</td>
-              <td>{device.esp_manufacturingdate}</td>
-              <td>{device.network_timestamp}</td>
-              <td>{device.body_temperature}</td>
-              <td>{device.heart_rate}</td>
-              <td>{device.spo2}</td>
-              <td>{device.accx}</td>
-              <td>{device.accy}</td>
-              <td>{device.accz}</td>
-              <td>{device.gyrox}</td>
-              <td>{device.gyroy}</td>
-              <td>{device.gyroz}</td>
-              <td>{device.heading}</td>{/* removed body_activity jaw_movement at_ideal_temperature*/}
-              <td>{device.location}</td>
-              <td>{device.battery}</td>
-              <td>{device.status}</td> {/* Ensure this exists or remove */}
+              <td>{data.imei_number}</td>
+              <td>{data.system_date_time}</td>
+              <td>{data.sim_number}</td>
+              <td>{data.simcom_manufacturing_date}</td>
+              <td>{data.esp_name}</td>
+              <td>{data.esp_serial_number}</td>
+              <td>{data.esp_manufacturingdate}</td>
+              <td>{data.network_timestamp}</td>
+              <td>{data.body_temperature}</td>
+              <td>{data.heart_rate}</td>
+              <td>{data.spo2}</td>
+              <td>{data.accx}</td>
+              <td>{data.accy}</td>
+              <td>{data.accz}</td>
+              <td>{data.gyrox}</td>
+              <td>{data.gyroy}</td>
+              <td>{data.gyroz}</td>
+              <td>{data.heading}</td>{/* removed body_activity jaw_movement at_ideal_temperature*/}
+              <td>{data.location}</td>
+              <td>{data.battery}</td>
+              <td>{data.status}</td> {/* Ensure this exists or remove */}
             </tr>
           ))}
         </tbody>
