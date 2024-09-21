@@ -41,7 +41,7 @@ async function keepAlive() {
 setInterval(keepAlive, KEEP_ALIVE_INTERVAL);
 
 // Persistent retry mechanism for reconnecting on failure
-const RETRY_DELAY = 1000; // Retry delay (1 seconds)
+const RETRY_DELAY = 90000000; 
 
 
 // Function to authenticate and handle reconnections
@@ -53,7 +53,7 @@ async function connectWithRetry() {
       break; // Exit loop if connection is successful
     } catch (err) {
       console.error('Unable to connect to the database:', err);
-      console.log(`Retrying connection in ${RETRY_DELAY / 1000} seconds...`);
+      console.log(`Retrying connection in ${RETRY_DELAY / 900000} seconds...`);
       await new Promise(resolve => setTimeout(resolve, RETRY_DELAY)); // Wait before retrying
     }
   }
