@@ -15,29 +15,64 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
       rejectUnauthorized: false // SSL settings for Render
     }
   },
-  logging: false,// Optional: disable logging of queries
+  logging: true,// Optional: disable logging of queries
   pool: {                   //check pool attributes
     max:10,
     min: 7,
-    acquire: 50000,
-    idle: 70000
+    acquire: 900000,
+    idle: 70000,
+    evict: 30000     // Remove idle connections after 30 seconds
   }
 });
 
+// Function to ping the database periodically (prevent idle timeouts)
+const KEEP_ALIVE_INTERVAL = 30000; // 30 seconds
 
-// Authenticate and handle connection
-async function connectWithRetry() {
+async function keepAlive() {
   try {
-    await sequelize.authenticate();
-    console.log('Connection established successfully.');
-  } catch (err) {
-    console.error('Unable to connect to the database:', err);
-    setTimeout(connectWithRetry, 1000); // Retry after 1 seconds if it fails
+    await sequelize.query('SELECT *'); // A simple query to keep the connection alive
+    console.log('Keep-alive query successful');
+  } catch (error) {
+    console.error('Keep-alive query failed:', error);
   }
 }
 
+// Start the keep-alive mechanism
+setInterval(keepAlive, KEEP_ALIVE_INTERVAL);
+
+// Persistent retry mechanism for reconnecting on failure
+const RETRY_DELAY = 1000; // Retry delay (1 seconds)
+
+
+// Function to authenticate and handle reconnections
+async function connectWithRetry() {
+  while (true) {
+    try {
+      await sequelize.authenticate();
+      console.log('Connection established successfully.');
+      break; // Exit loop if connection is successful
+    } catch (err) {
+      console.error('Unable to connect to the database:', err);
+      console.log(`Retrying connection in ${RETRY_DELAY / 1000} seconds...`);
+      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY)); // Wait before retrying
+    }
+  }
+}
 // Call the function to connect
 connectWithRetry();
+
+// Graceful shutdown on process termination
+process.on('SIGINT', async () => {
+  console.log('Gracefully shutting down...');
+  try {
+    await sequelize.close();
+    console.log('Database connection closed.');
+    process.exit(0);
+  } catch (error) {
+    console.error('Error closing database connection:', error);
+    process.exit(1);
+  }
+});;
 
 module.exports = sequelize;
 
