@@ -25,22 +25,19 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
 });
 
 
-// Authenticate and handle connection events
-sequelize.authenticate().then(() => {
-  console.log('Connection established successfully.');
-}).catch(err => {
-  console.error('Unable to connect to the database:', err);
-});
+// Authenticate and handle connection
+async function connectWithRetry() {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection established successfully.');
+  } catch (err) {
+    console.error('Unable to connect to the database:', err);
+    setTimeout(connectWithRetry, 1000); // Retry after 1 seconds if it fails
+  }
+}
 
-// Handle database disconnection and attempt to reconnect
-sequelize.connectionManager.on('error', err => {
-  console.error('Database connection lost:', err);
-  sequelize.authenticate().then(() => {
-    console.log('Reconnected successfully.');
-  }).catch(err => {
-    console.error('Reconnection failed:', err);
-  });
-});
+// Call the function to connect
+connectWithRetry();
 
 module.exports = sequelize;
 
