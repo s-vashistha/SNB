@@ -36,7 +36,7 @@ router.post('/data', async (req, res) => {
       gyroz: gyroZ,
       heading: Heading,
       location: Location,
-      battery: Battery,//removed Body_Activity, Jaw_Movement, At_Ideal_Temperature, 
+      battery: Battery, // Removed Body_Activity, Jaw_Movement, At_Ideal_Temperature
     });
 
     res.json({ message: 'Record processed successfully', data: newRecord });

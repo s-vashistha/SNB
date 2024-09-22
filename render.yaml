@@ -12,6 +12,18 @@ services:
         value: production
       - key: REACT_APP_API_URL
         value: https://snb-1.onrender.com
+      - key: DB_HOST
+        value: dpg-crf8pstsvqrc73f5c770-a
+      - key: DB_USER
+        value: snbpostdata_user
+      - key: DB_PASSWORD
+        value: m64gJ3y7LlYgIXUPV5syQA6OKAR7gXVi
+      - key: DB_PORT
+        value: '5432'
+      - key: DB_NAME
+        value: snbpostdata
+      - key: DATABASE_URL
+        value: postgresql://snbpostdata_user:m64gJ3y7LlYgIXUPV5syQA6OKAR7gXVi@dpg-crf8pstsvqrc73f5c770-a/snbpostdata
     autoDeploy: true  
 
   - type: web
