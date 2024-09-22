@@ -9,70 +9,50 @@ if (!process.env.DATABASE_URL) {
 
 // Initialize Sequelize with PostgreSQL connection
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  
-  host: 'dpg-crf8pstsvqrc73f5c770-a',
   dialect: 'postgres',
   dialectOptions: {
     ssl: false
   },
-  logging: true,// Optional: disable logging of queries
-  pool: {                   //check pool attributes
-    max:10,
+  logging: true, // Optional: disable logging of queries
+  pool: {
+    max: 10,
     min: 7,
     acquire: 900000,
     idle: 70000,
-    evict: 30000     // Remove idle connections after 30 seconds
   }
 });
 
-// Function to ping the database periodically (prevent idle timeouts)
-const KEEP_ALIVE_INTERVAL = 30000; // 30 seconds
-
-async function keepAlive() {
-  try {
-    await sequelize.query('SELECT * FROM espdata;'); // A simple query to keep the connection alive
-    console.log('Keep-alive query successful');
-  } catch (error) {
-    console.error('Keep-alive query failed:', error);
-  }
-}
-
-// Start the keep-alive mechanism
-setInterval(keepAlive, KEEP_ALIVE_INTERVAL);
-
-// Persistent retry mechanism for reconnecting on failure
-const RETRY_DELAY = 90000000; 
-
-
-// Function to authenticate and handle reconnections
-async function connectWithRetry() {
-  while (true) {
+// Function to connect to the database with retries
+const connectWithRetry = async (retries = 5, delay = 2000) => {
+  while (retries) {
     try {
       await sequelize.authenticate();
       console.log('Connection established successfully.');
-      break; // Exit loop if connection is successful
+      return; // Exit if connection is successful
     } catch (err) {
-      console.error('Unable to connect to the database:', err);
-      console.log(`Retrying connection in ${RETRY_DELAY / 900000} seconds...`);
-      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY)); // Wait before retrying
+      console.error(`Unable to connect to the database. Retries left: ${retries - 1}`);
+      retries -= 1;
+
+      if (retries === 0) {
+        console.error('All retries exhausted. Could not connect to the database.');
+        throw err; // Throw the error if all retries are exhausted
+      }
+
+      // Wait for the specified delay before retrying
+      await new Promise(resolve => setTimeout(resolve, delay));
     }
   }
-}
-// Call the function to connect
-connectWithRetry();
+};
 
-// Graceful shutdown on process termination
-process.on('SIGINT', async () => {
-  console.log('Gracefully shutting down...');
-  try {
-    await sequelize.close();
-    console.log('Database connection closed.');
-    process.exit(0);
-  } catch (error) {
-    console.error('Error closing database connection:', error);
-    process.exit(1);
-  }
-});;
+// Start the connection process without blocking the app
+connectWithRetry().catch(error => {
+  console.error('Could not establish a database connection:', error);
+});
+
+// Graceful shutdown handling (if you need to clean up other resources)
+process.on('SIGINT', () => {
+  console.log('Received SIGINT, but will not close the database connection.');
+  process.exit(0); // Exit the process without closing the connection
+});
 
 module.exports = sequelize;
-
