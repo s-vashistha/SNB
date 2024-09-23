@@ -17,7 +17,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL,  {
   host: process.env.DB_HOST,
   dialect: 'postgres',
   dialectOptions: {
-    ssl: false
+    ssl: true
   },
   logging: true, // Optional: disable logging of queries
   pool: {

@@ -7,6 +7,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.7",
+    "browserslist": "^4.23.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "dotenv-webpack": "^8.1.0",
@@ -43,6 +44,7 @@
     ]
   },
   "devDependencies": {
+    "hint": "^7.1.13",
     "serve": "^14.2.3"
   }
 }
