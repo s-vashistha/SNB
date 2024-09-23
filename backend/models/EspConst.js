@@ -6,21 +6,21 @@ const EspConst = sequelize.define('EspConst', {
 
   srno: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: false, 
     autoIncrement: true,
     primaryKey: true, 
   },
   imei_number: {
     type: DataTypes.STRING, // DataTypes should be STRING instead of VARCHAR
-    allowNull: false
+    allowNull: true
   },
   system_date_time: {
     type: DataTypes.STRING, 
-    allowNull: false
+    allowNull: true
   },
   sim_number: {
     type: DataTypes.STRING, 
-    allowNull: false
+    allowNull: true
   },
   simcom_manufacturing_date: {
     type: DataTypes.STRING, 
@@ -28,11 +28,11 @@ const EspConst = sequelize.define('EspConst', {
   },
   esp_name: {
     type: DataTypes.STRING, 
-    allowNull: false
+    allowNull: true
   },
   esp_serial_number: {
     type: DataTypes.STRING, 
-    allowNull: false
+    allowNull: true
   },
   esp_manufacturingdate: {
     type: DataTypes.STRING, 
