@@ -24,6 +24,7 @@ const fs = require('fs');
 if (fs.existsSync(buildPath)) {
   app.use(express.static(buildPath));
   app.get('*', (req, res) => {
+    console.log(req.query);
     res.sendFile(path.join(buildPath, 'index.html'));
   });
 } else {
