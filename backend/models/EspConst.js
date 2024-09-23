@@ -80,7 +80,7 @@ const EspConst = sequelize.define('EspConst', {
   },
   heading: {
     type: DataTypes.STRING, 
-    allowNull: false
+    allowNull: true
   },
   location: {
     type: DataTypes.STRING, 
