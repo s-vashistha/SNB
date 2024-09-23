@@ -14,10 +14,10 @@ const EspConst = sequelize.define('EspConst', {
     type: DataTypes.STRING, // DataTypes should be STRING instead of VARCHAR
     allowNull: true
   },
-  system_date_time: {
+  /*system_date_time: {
     type: DataTypes.STRING, 
     allowNull: true
-  },
+  },*/
   sim_number: {
     type: DataTypes.STRING, 
     allowNull: true

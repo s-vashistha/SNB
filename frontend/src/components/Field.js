@@ -43,7 +43,7 @@ const Field = () => {
             <tr>
               <th>Serial No.</th>
               <th>IMEI Number</th>
-              <th>System Date Time</th>
+              {/*<th>System Date Time</th>*/}
               <th>Sim Number</th>
               <th>SIMCOM Manufacturing Date</th>
               <th>ESP Name</th>
