@@ -1,6 +1,11 @@
 require('dotenv').config();
 const { Sequelize } = require('sequelize');
-
+/*const db = mysql.createConnection({
+  host:process.env.DB_HOST,
+  user:process.env.DB_USER,
+  password:process.env.DB_PASS,
+  database:process.env.DB_NAME,
+})*/
 // Check if DATABASE_URL is defined
 if (!process.env.DATABASE_URL) {
   console.error('DATABASE_URL is not defined in the environment variables');
@@ -55,5 +60,10 @@ process.on('SIGINT', () => {
   console.log('Received SIGINT, but will not close the database connection.');
   process.exit(0); // Exit the process without closing the connection
 });
+
+/*db.connect((err)=>{
+  if(err) throw err;
+  console.log("connect db")
+})*/
 
 module.exports = sequelize;
