@@ -19,7 +19,7 @@ app.use(cors({
 app.use('/api', postDataRoutes);
 
 // Serve static files from the React app
-const buildPath = path.join(__dirname, '..', 'frontend', 'build');
+const buildPath = path.join(__dirname, '../frontend/build');
 const fs = require('fs');
 if (fs.existsSync(buildPath)) {
   app.use(express.static(buildPath));
