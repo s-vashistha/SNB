@@ -2,97 +2,91 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../db'); // Import the Sequelize instance from db.js
 
 const EspConst = sequelize.define('EspConst', {
-// Define the attributes of the EspConst model
-
-  srno: {
+  serialno: {
     type: DataTypes.INTEGER,
-    allowNull: false, 
+    allowNull: false,
     autoIncrement: true,
-    primaryKey: true, 
-  },
-  imei_number: {
-    type: DataTypes.STRING(50), // DataTypes should be STRING instead of VARCHAR
-    allowNull: true
-  },
-  /*system_date_time: {
-    type: DataTypes.STRING, 
-    allowNull: true
-  },*/
-  sim_number: {
-    type: DataTypes.STRING(50), 
-    allowNull: true
+    primaryKey: true,
   },
   simcom_manufacturing_date: {
-    type: DataTypes.STRING(50), 
-    allowNull: true
+    type: DataTypes.STRING(50),
+    allowNull: false
+  },
+  imei_number: {
+    type: DataTypes.STRING(50),
+    allowNull: false
+  },
+  sim_number: {
+    type: DataTypes.STRING(50),
+    allowNull: false
   },
   esp_name: {
-    type: DataTypes.STRING(50), 
-    allowNull: true
+    type: DataTypes.STRING(50),
+    allowNull: false
   },
   esp_serial_number: {
-    type: DataTypes.STRING(50), 
-    allowNull: true
+    type: DataTypes.STRING(50),
+    allowNull: false
   },
   esp_manufacturingdate: {
-    type: DataTypes.STRING(50), 
-    allowNull: true
+    type: DataTypes.STRING(50),
+    allowNull: false
   },
   network_timestamp: {
-    type: DataTypes.STRING(50), 
-    allowNull: true
+    type: DataTypes.STRING(50),
+    allowNull: false
   },
   body_temperature: {
-    type: DataTypes.STRING(50), 
-    allowNull: true
+    type: DataTypes.STRING(50),
+    allowNull: false
   },
   heart_rate: {
-    type: DataTypes.STRING(50), 
-    allowNull: true
+    type: DataTypes.STRING(50),
+    allowNull: false
   },
   spo2: {
-    type: DataTypes.STRING(50), 
-    allowNull: true
+    type: DataTypes.STRING(50),
+    allowNull: false
   },
   accx: {
-    type: DataTypes.STRING(50), 
-    allowNull: true
+    type: DataTypes.STRING(50),
+    allowNull: false
   },
   accy: {
-    type: DataTypes.STRING(50), 
-    allowNull: true
+    type: DataTypes.STRING(50),
+    allowNull: false
   },
   accz: {
-    type: DataTypes.STRING(50), 
-    allowNull: true
+    type: DataTypes.STRING(50),
+    allowNull: false
   },
   gyrox: {
-    type: DataTypes.STRING(50), 
-    allowNull: true
+    type: DataTypes.STRING(50),
+    allowNull: false
   },
   gyroy: {
-    type: DataTypes.STRING(50), 
-    allowNull: true
+    type: DataTypes.STRING(50),
+    allowNull: false
   },
   gyroz: {
-    type: DataTypes.STRING(50), 
-    allowNull: true
+    type: DataTypes.STRING(50),
+    allowNull: false
   },
   heading: {
-    type: DataTypes.STRING(50), 
-    allowNull: true
+    type: DataTypes.STRING(50),
+    allowNull: false
   },
   location: {
-    type: DataTypes.STRING(50), 
-    allowNull: true
+    type: DataTypes.STRING(50),
+    allowNull: false
   },
   battery: {
     type: DataTypes.STRING(50),
-    allowNull: true
+    allowNull: false
   }
 }, {
   tableName: 'espdata',
-  timestamps: false // Disable automatic timestamp fields
+  timestamps: false
 });
 
 module.exports = EspConst;

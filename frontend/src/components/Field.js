@@ -1,4 +1,4 @@
-import axios from 'axios'; 
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import logo from '../assets/logo.png';
 import './Field.css';
@@ -27,7 +27,7 @@ const Field = () => {
     <div className="container">
       <header className="header">
         <img src={logo} alt="Logo" />
-        <h1 align="center" background="#cdece8">Smart Neckband Devices Data</h1>
+        <h1 align="center" background="#cdec">Smart Neckband Devices Data</h1>
       </header>
 
       {/* Display a loading message while data is being fetched */}
@@ -42,16 +42,15 @@ const Field = () => {
           <thead>
             <tr>
               <th>Serial No.</th>
-              <th>IMEI_Number</th>
-              {/*<th>System Date Time</th>*/}
-              <th>Sim_Number</th>
-              <th>SIMCOM_Manufacturing_Date</th>
-              <th>ESP_Name</th>
-              <th>ESP_Serial_Number</th>
-              <th>ESP_ManufacturingDate</th>
-              <th>Network_Timestamp</th>
-              <th>Body_Temperature</th>
-              <th>Heart_Rate</th>
+              <th>SIMCOM Manufacturing Date</th>
+              <th>IMEI Number</th>
+              <th>Sim Number</th>
+              <th>ESP Name</th>
+              <th>ESP Serial Number</th>
+              <th>ESP Manufacturing Date</th>
+              <th>Network Timestamp</th>
+              <th>Body Temperature</th>
+              <th>Heart Rate</th>
               <th>SpO2</th>
               <th>accX</th>
               <th>accY</th>
@@ -61,17 +60,16 @@ const Field = () => {
               <th>gyroZ</th>
               <th>Heading</th>
               <th>Location</th>
-              <th>Battery</th>{/* removed Body Activity Jaw Movement At Ideal Temperature*/}
+              <th>Battery</th>
             </tr>
           </thead>
           <tbody>
             {deviceData.map((device, index) => (
-              <tr key={device.srno}>
+              <tr key={index}>
                 <td>{index + 1}</td> {/* Serial number based on array index */}
+                <td>{device.SIMCOM_Manufacturing_DATE || 'N/A'}</td>
                 <td>{device.IMEI_Number || 'N/A'}</td>
-                {/*<td>{device.system_date_time || 'N/A'}</td> */}
                 <td>{device.Sim_Number || 'N/A'}</td>
-                <td>{device.SIMCOM_Manufacturing_Date || 'N/A'}</td>
                 <td>{device.ESP_Name || 'N/A'}</td>
                 <td>{device.ESP_Serial_Number || 'N/A'}</td>
                 <td>{device.ESP_ManufacturingDate || 'N/A'}</td>
