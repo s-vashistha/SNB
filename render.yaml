@@ -11,7 +11,7 @@ services:
       - key: NODE_ENV
         value: production
       - key: REACT_APP_API_URL
-        value: https://snb-1.onrender.com
+        value: https://backend-service-i8te.onrender.com
       - key: DB_HOST
         value: dpg-crf8pstsvqrc73f5c770-a
       - key: DB_USER
