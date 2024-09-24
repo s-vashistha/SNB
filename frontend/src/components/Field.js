@@ -42,16 +42,16 @@ const Field = () => {
           <thead>
             <tr>
               <th>Serial No.</th>
-              <th>IMEI Number</th>
+              <th>IMEI_Number</th>
               {/*<th>System Date Time</th>*/}
-              <th>Sim Number</th>
-              <th>SIMCOM Manufacturing Date</th>
-              <th>ESP Name</th>
-              <th>ESP Serial Number</th>
-              <th>ESP Manufacturing Date</th>
-              <th>Network Timestamp</th>
-              <th>Body Temperature</th>
-              <th>Heart Rate</th>
+              <th>Sim_Number</th>
+              <th>SIMCOM_Manufacturing_Date</th>
+              <th>ESP_Name</th>
+              <th>ESP_Serial_Number</th>
+              <th>ESP_ManufacturingDate</th>
+              <th>Network_Timestamp</th>
+              <th>Body_Temperature</th>
+              <th>Heart_Rate</th>
               <th>SpO2</th>
               <th>accX</th>
               <th>accY</th>
@@ -68,26 +68,26 @@ const Field = () => {
             {deviceData.map((device, index) => (
               <tr key={device.srno}>
                 <td>{index + 1}</td> {/* Serial number based on array index */}
-                <td>{device.imei_number || 'N/A'}</td>
-                <td>{device.system_date_time || 'N/A'}</td>
-                <td>{device.sim_number || 'N/A'}</td>
-                <td>{device.simcom_manufacturing_date || 'N/A'}</td>
-                <td>{device.esp_name || 'N/A'}</td>
-                <td>{device.esp_serial_number || 'N/A'}</td>
-                <td>{device.esp_manufacturingdate || 'N/A'}</td>
-                <td>{device.network_timestamp || 'N/A'}</td>
-                <td>{device.body_temperature || 'N/A'}</td>
-                <td>{device.heart_rate || 'N/A'}</td>
-                <td>{device.spo2 || 'N/A'}</td>
-                <td>{device.accx || 'N/A'}</td>
-                <td>{device.accy || 'N/A'}</td>
-                <td>{device.accz || 'N/A'}</td>
-                <td>{device.gyrox || 'N/A'}</td>
-                <td>{device.gyroy || 'N/A'}</td>
-                <td>{device.gyroz || 'N/A'}</td>
-                <td>{device.heading || 'N/A'}</td>
-                <td>{device.location || 'N/A'}</td>
-                <td>{device.battery || 'N/A'}</td>
+                <td>{device.IMEI_Number || 'N/A'}</td>
+                {/*<td>{device.system_date_time || 'N/A'}</td> */}
+                <td>{device.Sim_Number || 'N/A'}</td>
+                <td>{device.SIMCOM_Manufacturing_Date || 'N/A'}</td>
+                <td>{device.ESP_Name || 'N/A'}</td>
+                <td>{device.ESP_Serial_Number || 'N/A'}</td>
+                <td>{device.ESP_ManufacturingDate || 'N/A'}</td>
+                <td>{device.Network_Timestamp || 'N/A'}</td>
+                <td>{device.Body_Temperature || 'N/A'}</td>
+                <td>{device.Heart_Rate || 'N/A'}</td>
+                <td>{device.SpO2 || 'N/A'}</td>
+                <td>{device.accX || 'N/A'}</td>
+                <td>{device.accY || 'N/A'}</td>
+                <td>{device.accZ || 'N/A'}</td>
+                <td>{device.gyroX || 'N/A'}</td>
+                <td>{device.gyroY || 'N/A'}</td>
+                <td>{device.gyroZ || 'N/A'}</td>
+                <td>{device.Heading || 'N/A'}</td>
+                <td>{device.Location || 'N/A'}</td>
+                <td>{device.Battery || 'N/A'}</td>
               </tr>
             ))}
           </tbody>

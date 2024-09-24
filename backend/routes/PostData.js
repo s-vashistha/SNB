@@ -5,11 +5,13 @@ const EspConst = require('../models/EspConst');
 
 // Parse URL-encoded data
 router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json());
 
 // POST route for storing device data
 router.post('/data', async (req, res) => {
+  console.log(req.body);// Debugging line to check incoming request body
   const {
-    IMEI_Number, Sim_Number, SIMCOM_Manufacturing_DATE,
+    IMEI_Number, Sim_Number, SIMCOM_Manufacturing_Date,
     ESP_Name, ESP_Serial_Number, ESP_ManufacturingDate, Network_Timestamp,
     Body_Temperature, Heart_Rate, SpO2, accX, accY, accZ, gyroX, gyroY, gyroZ,
     Heading, Location, Battery
@@ -20,7 +22,7 @@ router.post('/data', async (req, res) => {
       imei_number: IMEI_Number,
       //system_date_time: System_Date_Time,
       sim_number: Sim_Number,
-      simcom_manufacturing_date: SIMCOM_Manufacturing_DATE,
+      simcom_manufacturing_date: SIMCOM_Manufacturing_Date,
       esp_name: ESP_Name,
       esp_serial_number: ESP_Serial_Number,
       esp_manufacturingdate: ESP_ManufacturingDate,
@@ -47,13 +49,14 @@ router.post('/data', async (req, res) => {
 
 // GET route to fetch device data
 router.get('/data', async (req, res) => {
+  
   try {
     const results = await EspConst.findAll();
     const modifiedResults = results.map(row => ({
       IMEI_Number: row.imei_number,
       //System_Date_Time: row.system_date_time,//remove
       Sim_Number: row.sim_number,
-      SIMCOM_Manufacturing_DATE: row.simcom_manufacturing_date,
+      SIMCOM_Manufacturing_Date: row.simcom_manufacturing_date,
       ESP_Name: row.esp_name,
       ESP_Serial_Number: row.esp_serial_number,
       ESP_ManufacturingDate: row.esp_manufacturingdate,
