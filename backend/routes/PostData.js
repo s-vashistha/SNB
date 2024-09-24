@@ -5,8 +5,6 @@ const EspConst = require('../models/EspConst');
 
 // Parse URL-encoded data
 router.use(bodyParser.urlencoded({ extended: true }));
-router.use(bodyParser.json());
-
 
 // POST route for storing device data
 router.post('/data', async (req, res) => {
