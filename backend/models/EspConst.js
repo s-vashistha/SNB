@@ -10,83 +10,83 @@ const EspConst = sequelize.define('EspConst', {
   },
   simcom_manufacturing_date: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   },
   imei_number: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   },
   sim_number: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   },
   esp_name: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   },
   esp_serial_number: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   },
   esp_manufacturingdate: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   },
   network_timestamp: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   },
   body_temperature: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   },
   heart_rate: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   },
   spo2: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   },
   accx: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   },
   accy: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   },
   accz: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   },
   gyrox: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   },
   gyroy: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   },
   gyroz: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   },
   heading: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   },
   location: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   },
   battery: {
     type: DataTypes.STRING(50),
-    allowNull: false
+    allowNull: true
   }
 }, {
   tableName: 'espdata',
-  timestamps: false
+  timestamps: true
 });
 
 module.exports = EspConst;
