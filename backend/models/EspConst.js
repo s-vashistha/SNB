@@ -86,7 +86,7 @@ const EspConst = sequelize.define('EspConst', {
   }
 }, {
   tableName: 'espdata',
-  timestamps: true
+  timestamps: false
 });
 
 module.exports = EspConst;
