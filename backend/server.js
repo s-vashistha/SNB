@@ -32,11 +32,11 @@ if (fs.existsSync(buildPath)) {
 }
 
 // Start the server after syncing Sequelize models
+const PORT = process.env.PORT || 10000;
 sequelize.sync().then(() => {
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
 }).catch(error => {
-  console.error("Unable to sync Sequelize models:", error); // This logs Sequelize-specific errors
+  console.error("Unable to sync Sequelize models:", error);
 });
-

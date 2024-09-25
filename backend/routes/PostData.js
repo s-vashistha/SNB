@@ -5,27 +5,20 @@ const EspConst = require('../models/EspConst');
 
 // Parse URL-encoded data
 router.use(bodyParser.urlencoded({ extended: true }));
-router.use(bodyParser.json()); // Ensure JSON parsing is handled
+router.use(bodyParser.json());
+
 
 // POST route for storing device data
 router.post('/data', async (req, res) => {
+  console.log(req.body); // Debugging line to check incoming request body
+  const {
+    SIMCOM_Manufacturing_DATE,IMEI_Number, Sim_Number,
+    ESP_Name, ESP_Serial_Number, ESP_ManufacturingDate, Network_Timestamp,
+    Body_Temperature, Heart_Rate, SpO2, accX, accY, accZ, gyroX, gyroY, gyroZ,
+    Heading, Location, Battery
+  } = req.body;
+
   try {
-    // Log the request body to ensure you're getting the right data
-    console.log('Received request body:', req.body);
-
-    const {
-      SIMCOM_Manufacturing_DATE, IMEI_Number, Sim_Number,
-      ESP_Name, ESP_Serial_Number, ESP_ManufacturingDate, Network_Timestamp,
-      Body_Temperature, Heart_Rate, SpO2, accX, accY, accZ, gyroX, gyroY, gyroZ,
-      Heading, Location, Battery
-    } = req.body;
-
-    // Basic validation to check if required fields are provided
-    if (!IMEI_Number || !ESP_Serial_Number) {
-      return res.status(400).json({ error: 'IMEI_Number and ESP_Serial_Number are required fields.' });
-    }
-
-    // Insert into database
     const newRecord = await EspConst.create({
       simcom_manufacturing_date: SIMCOM_Manufacturing_DATE,
       imei_number: IMEI_Number,                        
@@ -48,49 +41,42 @@ router.post('/data', async (req, res) => {
       battery: Battery                                
     });
 
-    // Send success response
     res.json({ message: 'Record processed successfully', device: newRecord });
   } catch (error) {
-    // Log the full error and return a 500 status code
-    console.error('Error occurred while processing POST /data:', error);
-    res.status(500).json({ error: 'An internal server error occurred. Please try again later.' });
+    res.status(500).json({ error: error.message });
   }
 });
+
 
 // GET route to fetch device data
 router.get('/data', async (req, res) => {
   try {
     const results = await EspConst.findAll();
-
-    // Format the results with the expected field names
     const modifiedResults = results.map(row => ({
       SIMCOM_Manufacturing_DATE: row.simcom_manufacturing_date,
-      IMEI_Number: row.imei_number,                         
-      Sim_Number: row.sim_number,                           
-      ESP_Name: row.esp_name,                               
-      ESP_Serial_Number: row.esp_serial_number,             
-      ESP_ManufacturingDate: row.esp_manufacturingdate,     
-      Network_Timestamp: row.network_timestamp,             
-      Body_Temperature: row.body_temperature,               
-      Heart_Rate: row.heart_rate,                           
-      SpO2: row.spo2,                                       
-      accX: row.accx,                                       
-      accY: row.accy,                                       
-      accZ: row.accz,                                       
-      gyroX: row.gyrox,                                     
-      gyroY: row.gyroy,                                     
-      gyroZ: row.gyroz,                                     
-      Heading: row.heading,                                 
-      Location: row.location,                               
-      Battery: row.battery                                  
+      IMEI_Number: row.imei_number,                         // Map imei_number to IMEI_Number
+      Sim_Number: row.sim_number,                           // Map sim_number to Sim_Number
+      ESP_Name: row.esp_name,                               // Map esp_name to ESP_Name
+      ESP_Serial_Number: row.esp_serial_number,             // Map esp_serial_number to ESP_Serial_Number
+      ESP_ManufacturingDate: row.esp_manufacturingdate,     // Map esp_manufacturingdate to ESP_ManufacturingDate
+      Network_Timestamp: row.network_timestamp,             // Map network_timestamp to Network_Timestamp
+      Body_Temperature: row.body_temperature,               // Map body_temperature to Body_Temperature
+      Heart_Rate: row.heart_rate,                           // Map heart_rate to Heart_Rate
+      SpO2: row.spo2,                                       // Map spo2 to SpO2
+      accX: row.accx,                                       // Map accx to accX
+      accY: row.accy,                                       // Map accy to accY
+      accZ: row.accz,                                       // Map accz to accZ
+      gyroX: row.gyrox,                                     // Map gyrox to gyroX
+      gyroY: row.gyroy,                                     // Map gyroy to gyroY
+      gyroZ: row.gyroz,                                     // Map gyroz to gyroZ
+      Heading: row.heading,                                 // Map heading to Heading
+      Location: row.location,                               // Map location to Location
+      Battery: row.battery                                  // Map battery to Battery
     }));
 
-    // Return the modified results to the frontend
-    res.json(modifiedResults);
+    res.json(modifiedResults); // Return the modified results to the frontend
   } catch (error) {
-    // Log the full error and return a 500 status code
-    console.error('Error occurred while processing GET /data:', error);
-    res.status(500).json({ error: 'An internal server error occurred. Please try again later.' });
+    res.status(500).json({ error: error.message });
   }
 });
 
