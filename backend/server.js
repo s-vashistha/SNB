@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
-const postDataRoutes = require('./routes/PostData'); // Ensure the path is correct
+const postDataRoutes = require('./routes/PostData');  // Ensure the path is correct
 const sequelize = require('./db');  // Import sequelize instance
 
 const app = express();
@@ -15,14 +15,16 @@ app.use(cors({
   credentials: true,
 }));
 
-// Use the API routes
-app.use('/api', postDataRoutes);
+// API Routes
+app.use('/api', postDataRoutes);  // Set up API routes
 
-// Serve static files from the React app
+// Serve the React static files from the 'build' directory
 const buildPath = path.join(__dirname, '../frontend/build');
 const fs = require('fs');
 if (fs.existsSync(buildPath)) {
-  app.use(express.static(buildPath));
+  app.use(express.static(buildPath));  // Serve static files
+
+  // If no API routes match, send the React app's index.html
   app.get('*', (req, res) => {
     console.log(req.query);
     res.sendFile(path.join(buildPath, 'index.html'));
@@ -32,7 +34,7 @@ if (fs.existsSync(buildPath)) {
 }
 
 // Start the server after syncing Sequelize models
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 5000;
 sequelize.sync().then(() => {
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

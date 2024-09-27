@@ -7,21 +7,38 @@ const Field = () => {
   const [deviceData, setDeviceData] = useState([]);  // State to store the device data
   const [error, setError] = useState(null);          // State for error handling
   const [loading, setLoading] = useState(true);      // Loading state for fetching data
+  const [page, setPage] = useState(1);               // Page state for pagination
+  const [totalPages, setTotalPages] = useState(1);   // Total number of pages
 
-  // useEffect to fetch the device data when the component is mounted
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/api/data`)  // Assuming the API is available at this endpoint
-      .then((response) => {
-        setDeviceData(response.data);
-        setLoading(false);  // Data fetched, loading is done
-      })
-      .catch((error) => {
+    const fetchDeviceData = async () => {
+      setLoading(true);  // Start loading
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/data?page=${page}&limit=20`);
+        setDeviceData(response.data.data);
+        setTotalPages(response.data.pagination.totalPages);
+        setLoading(false);  // Stop loading when data is fetched
+      } catch (error) {
         console.error('Error fetching device data:', error);
-        setError('Failed to fetch device data.');  // User-friendly error message
-        setLoading(false);  // Stop loading even if there is an error
-      });
-  }, []);
+        setError('Failed to fetch device data.');
+        setLoading(false);  // Stop loading on error
+      }
+    };
+
+    fetchDeviceData();
+  }, [page]);
+
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
 
   return (
     <div className="container">
@@ -30,16 +47,13 @@ const Field = () => {
         <h1 align="center" background="#cdec">Smart Neckband Devices Data</h1>
       </header>
 
-      {/* Display a loading message while data is being fetched */}
       {loading && <p>Loading data...</p>}
-
-      {/* Display an error message if the data fetch fails */}
       {error && <p className="error-message">{error}</p>}
 
-      {/* Display the device data table if data exists and is not empty */}
       {!loading && !error && deviceData.length > 0 && (
-        <table>
-          <thead>
+        <div>
+          <table>
+            <thead>
             <tr>
               <th>Serial No.</th>
               <th>SIMCOM Manufacturing Date</th>
@@ -62,37 +76,44 @@ const Field = () => {
               <th>Location</th>
               <th>Battery</th>
             </tr>
-          </thead>
-          <tbody>
-            {deviceData.map((device, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td> {/* Serial number based on array index */}
-                <td>{device.SIMCOM_Manufacturing_DATE || 'N/A'}</td>
-                <td>{device.IMEI_Number || 'N/A'}</td>
-                <td>{device.Sim_Number || 'N/A'}</td>
-                <td>{device.ESP_Name || 'N/A'}</td>
-                <td>{device.ESP_Serial_Number || 'N/A'}</td>
-                <td>{device.ESP_ManufacturingDate || 'N/A'}</td>
-                <td>{device.Network_Timestamp || 'N/A'}</td>
-                <td>{device.Body_Temperature || 'N/A'}</td>
-                <td>{device.Heart_Rate || 'N/A'}</td>
-                <td>{device.SpO2 || 'N/A'}</td>
-                <td>{device.accX || 'N/A'}</td>
-                <td>{device.accY || 'N/A'}</td>
-                <td>{device.accZ || 'N/A'}</td>
-                <td>{device.gyroX || 'N/A'}</td>
-                <td>{device.gyroY || 'N/A'}</td>
-                <td>{device.gyroZ || 'N/A'}</td>
-                <td>{device.Heading || 'N/A'}</td>
-                <td>{device.Location || 'N/A'}</td>
-                <td>{device.Battery || 'N/A'}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {deviceData.map((device, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{device.SIMCOM_Manufacturing_DATE || 'N/A'}</td>
+                  <td>{device.IMEI_Number || 'N/A'}</td>
+                  <td>{device.Sim_Number || 'N/A'}</td>
+                  <td>{device.ESP_Name || 'N/A'}</td>
+                  <td>{device.ESP_Serial_Number || 'N/A'}</td>
+                  <td>{device.ESP_ManufacturingDate || 'N/A'}</td>
+                  <td>{device.Network_Timestamp || 'N/A'}</td>
+                  <td>{device.Body_Temperature || 'N/A'}</td>
+                  <td>{device.Heart_Rate || 'N/A'}</td>
+                  <td>{device.SpO2 || 'N/A'}</td>
+                  <td>{device.accX || 'N/A'}</td>
+                  <td>{device.accY || 'N/A'}</td>
+                  <td>{device.accZ || 'N/A'}</td>
+                  <td>{device.gyroX || 'N/A'}</td>
+                  <td>{device.gyroY || 'N/A'}</td>
+                  <td>{device.gyroZ || 'N/A'}</td>
+                  <td>{device.Heading || 'N/A'}</td>
+                  <td>{device.Location || 'N/A'}</td>
+                  <td>{device.Battery || 'N/A'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* Pagination controls */}
+          <div className="pagination">
+            <button onClick={handlePrevPage} disabled={page === 1}>Previous</button>
+            <span>Page {page} of {totalPages}</span>
+            <button onClick={handleNextPage} disabled={page === totalPages}>Next</button>
+          </div>
+        </div>
       )}
 
-      {/* Display message if no data is available */}
       {!loading && !error && deviceData.length === 0 && <p>No device data available.</p>}
     </div>
   );

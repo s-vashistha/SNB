@@ -6,7 +6,7 @@ const EspConst = sequelize.define('EspConst', {
     type: DataTypes.INTEGER,
     allowNull: false,
     autoIncrement: true,
-    primaryKey: true,
+    primaryKey: true,  // Ensure this is the auto-incrementing primary key
   },
   simcom_manufacturing_date: {
     type: DataTypes.STRING(50),
@@ -14,11 +14,11 @@ const EspConst = sequelize.define('EspConst', {
   },
   imei_number: {
     type: DataTypes.STRING(50),
-    allowNull: true
+    allowNull: true  // Allow duplicate IMEI_Number values
   },
   sim_number: {
     type: DataTypes.STRING(50),
-    allowNull: true
+    allowNull: true  // Allow duplicate Sim_Number values
   },
   esp_name: {
     type: DataTypes.STRING(50),
@@ -86,7 +86,7 @@ const EspConst = sequelize.define('EspConst', {
   }
 }, {
   tableName: 'espdata',
-  timestamps: false
+  timestamps: false,
 });
 
 module.exports = EspConst;
