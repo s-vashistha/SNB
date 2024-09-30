@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const EspConst = require('../models/EspConst');
 
+router.use(express.urlencoded({ extended: true })); 
+
 // POST route for storing device data
 router.post('/data', async (req, res) => {
   console.log(req.body); // Debugging line to check incoming request body
