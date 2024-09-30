@@ -17,7 +17,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialectOptions: {
     ssl: useSSL
       ? {
-          require: true,  // Use SSL in production
+          require: false,  // Use SSL in production
           rejectUnauthorized: false // Disable self-signed cert rejection (can be updated based on your certificate)
         }
       : false  // No SSL for development or non-production environments

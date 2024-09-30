@@ -5,11 +5,11 @@ const EspConst = require('../models/EspConst');
 // POST route for storing device data
 router.post('/data', async (req, res) => {
   console.log(req.body); // Debugging line to check incoming request body
-  
-  // If req.body is an array (batch insert), else convert single record into an array
+
+  // Check if req.body is an array (batch insert), else convert single record into an array
   const data = Array.isArray(req.body) ? req.body : [req.body];
 
-  // Map incoming data to match database columns
+  // Map incoming data to match database columns (whether JSON or URL-encoded)
   const records = data.map(item => ({
     simcom_manufacturing_date: item.SIMCOM_Manufacturing_DATE,
     imei_number: item.IMEI_Number,
@@ -35,8 +35,7 @@ router.post('/data', async (req, res) => {
   try {
     // Insert all records in bulk
     const newRecords = await EspConst.bulkCreate(records);
-
-    res.json({ message: 'Records added successfully', devices: newRecords });
+    res.status(200).json({ message: 'Records added successfully', devices: newRecords });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -9,7 +9,7 @@ const app = express();
 
 // Middleware to parse URL-encoded data and JSON data
 app.use(express.urlencoded({ extended: true }));  // Handles application/x-www-form-urlencoded
-app.use(express.json());  // Handles application/json
+//app.use(express.json());  // Handles application/json
 app.use(cors({
   origin: '*',
   credentials: true,

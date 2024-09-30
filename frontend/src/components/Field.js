@@ -14,9 +14,15 @@ const Field = () => {
     const fetchDeviceData = async () => {
       setLoading(true);  // Start loading
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/data?page=${page}&limit=20`);
-        setDeviceData(response.data.data);
-        setTotalPages(response.data.pagination.totalPages);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/data?page=${page}&limit=20`, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded', // Ensuring URL-encoded data
+          }
+        });
+
+        // Handle response as plain form-encoded data
+        setDeviceData(response.data.data);  // Populate data
+        setTotalPages(response.data.pagination.totalPages);  // Set total pages
         setLoading(false);  // Stop loading when data is fetched
       } catch (error) {
         console.error('Error fetching device data:', error);
@@ -44,10 +50,10 @@ const Field = () => {
     <div className="container">
       <header className="header">
         <img src={logo} alt="Logo" />
-        <h1 align="center" background="#cdec">Smart Neckband Devices Data</h1>
+        <h1 align="center" background="#9993">Smart Neckband Devices Data</h1>
       </header>
 
-      {loading && <p>Loading data...</p>}
+      {loading && <p>Loading data..</p>}
       {error && <p className="error-message">{error}</p>}
 
       {!loading && !error && deviceData.length > 0 && (
